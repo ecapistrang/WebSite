@@ -12,7 +12,7 @@ namespace Model
     {
         public Alumno()
         {
-            Curso = new HashSet<Curso>();
+            Cursos = new List<Curso>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -26,7 +26,7 @@ namespace Model
         [StringLength(100)]
         public string Apellido { get; set; }
 
-        public virtual ICollection<Curso> Curso { get; set; }
+        public ICollection<Curso> Cursos { get; set; }
 
         public List<Alumno> Listar()
         {
@@ -42,10 +42,33 @@ namespace Model
             catch (Exception e)
             {
                 
-                throw;
+                throw new Exception(e.Message);
             }
 
             return alumnos;
+        }
+
+        public Alumno Obtener(int id)
+        {
+            var alumno = new Alumno();
+            try
+            {
+                using (var context = new TextContext())
+                {
+                    alumno = context.Alumno
+                                        .Include("Cursos")
+                                        .Where(i => i.id == id)
+                                        .Single(); // Retorna una sola fila
+                                        //.First() retorna el primer elemento encontrado
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
+            return alumno;
         }
     }
 }

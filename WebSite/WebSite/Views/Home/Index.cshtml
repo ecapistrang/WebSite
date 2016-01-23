@@ -10,14 +10,20 @@
         <tr>
             <th width="100px">Nombre</th>
             <th>Apellido</th>
+            <th style="width:200px;"></th>
         </tr>
     </tread>
     <tbody>
-        @foreach(var a in Model)
+        @foreach(var item in Model)
         {
          <tr>
-             <th>@a.Nombre</th>
-             <th>@a.Apellido</th>
+             <td>@item.Nombre</td>
+             <td>@item.Apellido</td>
+             <td class="text-right">
+                @Html.ActionLink(" ", "Crud", new { id = item.id }, new { @class = "glyphicon glyphicon-pencil btn btn-default" }) |
+                @Html.ActionLink(" ", "Ver", new { id = item.id }, new { @class = "glyphicon glyphicon-eye-open btn btn-default btn-success" })
+                
+             </td>
          </tr>   
         }
     </tbody>

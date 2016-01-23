@@ -11,17 +11,17 @@ namespace Model
     {
         public Curso()
         {
-            Alumno = new HashSet<Alumno>();
+            Alumno = new List<Alumno>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int id { get; set; }
 
-        [Column("Curso")]
+        [Column("Curso1")]
         [Required]
         [StringLength(100)]
         public string Curso1 { get; set; }
 
-        public virtual ICollection<Alumno> Alumno { get; set; }
+        public ICollection<Alumno> Alumno { get; set; }
     }
 }

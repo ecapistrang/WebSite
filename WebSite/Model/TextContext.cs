@@ -17,22 +17,22 @@ namespace Model
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Alumno>()
+            /*modelBuilder.Entity<Alumno>()
                 .Property(e => e.Nombre)
                 .IsFixedLength();
 
             modelBuilder.Entity<Alumno>()
                 .Property(e => e.Apellido)
-                .IsFixedLength();
+                .IsFixedLength();*/
 
             modelBuilder.Entity<Alumno>()
-                .HasMany(e => e.Curso)
+                .HasMany(e => e.Cursos)
                 .WithMany(e => e.Alumno)
                 .Map(m => m.ToTable("AlumnoCurso"));
 
-            modelBuilder.Entity<Curso>()
+            /*modelBuilder.Entity<Curso>()
                 .Property(e => e.Curso1)
-                .IsFixedLength();
+                .IsFixedLength();*/
         }
     }
 }

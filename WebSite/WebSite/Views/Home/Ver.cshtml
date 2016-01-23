@@ -1,0 +1,44 @@
+﻿@model Model.Alumno
+@{
+    ViewBag.Title = Model.Nombre + " " + Model.Apellido;
+}
+
+<ol class="breadcrumb">
+    <li><a href="~/">Volver</a></li>    
+    <li class="active">@(Model.Nombre + " " + Model.Apellido)</li>
+</ol>
+
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">@(Model.Nombre + " " + Model.Apellido)</h3>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>Nombre</dt>
+                <dd>@Model.Nombre</dd>
+                <dt>Apellido</dt>
+                <dd>@Model.Apellido</dd>
+            </dl>
+        </div>
+    </div>
+
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Asignaturas seleccionadas</h3>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                @foreach (var m in Model.Cursos)
+                {
+                    <li class="list-group-item">
+                        @m.Curso1
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>    
+
+</div>
