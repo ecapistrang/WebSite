@@ -4,7 +4,8 @@ namespace Model
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
+    using System.Data.Entity;
+    using System.Data.SqlClient;
     using System.Linq;
 
     [Table("Alumno")]
@@ -69,6 +70,43 @@ namespace Model
             }
 
             return alumno;
+        }
+
+
+        public void Guardar()
+        {            
+            try
+            {
+                using (var context = new TextContext())
+                {
+                    if (this.id == 0)
+                    {
+                        context.Entry(this).State = EntityState.Added;
+                    }else
+                    {
+                        context.Database.ExecuteSqlCommand(
+                                            "DELETE FROM AlumnoCurso WHERE Alumno_id = @id",
+                                            new SqlParameter("id", this.id)
+                                        );
+
+                        var cursoBK = this.Cursos;
+
+                        this.Cursos = null;
+                        context.Entry(this).State = EntityState.Modified;
+                        this.Cursos = cursoBK;
+                    }
+
+                    foreach (var c in this.Cursos)
+                        context.Entry(c).State = EntityState.Unchanged;
+
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }       
         }
     }
 }

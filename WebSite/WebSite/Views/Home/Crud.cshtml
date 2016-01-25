@@ -1,5 +1,55 @@
-﻿@{
-    ViewBag.Title = "Crud";
+﻿@model Model.Alumno
+@{
+    ViewBag.Title = (Model.id > 0 ? Model.Nombre + " " + Model.Apellido : "Nuevo registro");
+    List<Model.Curso> cursos = ViewBag.Cursos;
 }
 
-<h2>Editar</h2>
+<ol class="breadcrumb">
+    <li><a href="~/">Alumnos</a></li>
+    <li class="active">@(Model.id > 0 ? Model.Nombre + " " + Model.Apellido : "Nuevo registro")</li>
+</ol>
+
+@using (Html.BeginForm("Guardar", "Home", FormMethod.Post, new { id = "frm-alumno" }))
+{
+    @Html.HiddenFor(x => x.id)
+    <div class="panel panel-default">
+        <div class="panel-heading">Información personal</div>
+        <div class="panel-body">
+            <div class="form-group">
+                @Html.LabelFor(x => x.Nombre)
+                @Html.TextBoxFor(x => x.Nombre, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.Apellido)
+                @Html.TextBoxFor(x => x.Apellido, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Asignaturas</div>
+        <div class="panel-body">
+            <ul class="list-group">
+                @foreach (var c in cursos)
+                {
+                    var tomado = false;
+                    foreach (var c2 in Model.Cursos)
+                    {
+                        if (c.id == c2.id)
+                        {
+                            tomado = true;
+                            break;
+                        }
+                    }
+                    <li class="list-group-item">
+                        <label><input type="checkbox" @(tomado ? "checked" : "") name="cursos" value="@c.id" /> @c.Curso1</label>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+}
